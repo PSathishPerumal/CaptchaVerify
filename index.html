@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CAPTCHA Verify</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .captcha-container {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .captcha-box {
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      background: #e0e0e0;
+      border: gray dotted 5px;
+      border-radius: 10px;
+      padding: 10px 20px;
+      display: inline-block;
+      margin-bottom: 15px;
+      user-select: none;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 200px;
+      margin-bottom: 10px;
+      
+    }
+
+    .buttons {
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+      background:darkgreen;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="captcha-container">
+    <h2>Verify You are Human</h2>
+    <div id="captcha" class="captcha-box"></div>
+    <br>
+    <input type="text" id="captchaInput" placeholder="Enter CAPTCHA">
+    <div class="buttons">
+      <button onclick="verifyCaptcha()">Verify</button>
+      <button onclick="generateCaptcha()">Refresh</button>
+    </div>
+  </div>
+
+  <script>
+    let currentCaptcha = '';
+
+    function generateCaptcha() {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let captcha = "";
+      for (let i = 0; i < 6; i++) {
+        captcha += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      currentCaptcha = captcha;
+      document.getElementById('captcha').innerText = captcha;
+    }
+
+    function verifyCaptcha() {
+      const userInput = document.getElementById('captchaInput').value;
+      if(userInput==""){
+        alert("Please Enter The Captcha Showned below!")
+      }
+      else if (userInput === currentCaptcha) {
+        alert('You are a human!');
+        generateCaptcha();
+        document.getElementById('captchaInput').value = '';
+     
+      }
+       else {
+        alert('You are not a human!');
+        generateCaptcha();
+        document.getElementById('captchaInput').value = '';
+      }
+    
+    }
+
+    // Generate captcha on page load
+    window.onload = generateCaptcha;
+  </script>
+</body>
+</html>
